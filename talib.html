@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Northline Barber Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0d0b;
+      --panel: rgba(255, 248, 240, 0.06);
+      --panel-strong: rgba(255, 248, 240, 0.1);
+      --text: #f7efe5;
+      --muted: #c6b8ab;
+      --accent: #d7a35d;
+      --accent-deep: #8c5a28;
+      --line: rgba(255, 248, 240, 0.12);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(215, 163, 93, 0.22), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(140, 90, 40, 0.28), transparent 28%),
+        linear-gradient(135deg, #120f0c 0%, #0b0908 45%, #16120e 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), transparent);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1rem 0 4rem;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, var(--accent), var(--accent-deep));
+      color: #1a120b;
+      box-shadow: var(--shadow);
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.4rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      min-height: 48px;
+      padding: 0.9rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, var(--accent), #f0c286);
+      color: #1a1109;
+      box-shadow: 0 20px 45px rgba(215, 163, 93, 0.25);
+    }
+
+    .button-secondary {
+      border-color: var(--line);
+      background: rgba(255, 248, 240, 0.03);
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.5rem;
+      align-items: stretch;
+      padding: 2rem 0 1.5rem;
+    }
+
+    .hero-panel,
+    .hero-card,
+    .section-card,
+    .service-card,
+    .testimonial,
+    .contact-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel {
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255, 248, 240, 0.06);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero h1,
+    h2 {
+      font-family: "Bebas Neue", sans-serif;
+      letter-spacing: 0.03em;
+      line-height: 0.95;
+      margin: 1rem 0 0.8rem;
+      font-weight: 400;
+    }
+
+    .hero h1 {
+      font-size: clamp(4rem, 10vw, 7.2rem);
+      max-width: 9ch;
+    }
+
+    .hero-copy {
+      color: var(--muted);
+      max-width: 60ch;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.6rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat {
+      padding: 1rem;
+      border-radius: 18px;
+      background: rgba(255, 248, 240, 0.04);
+      border: 1px solid rgba(255, 248, 240, 0.08);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.7rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero-card {
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-visual {
+      min-height: 420px;
+      border-radius: 22px;
+      background:
+        linear-gradient(to top, rgba(15, 13, 11, 0.7), rgba(15, 13, 11, 0.1)),
+        url("https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=1200&q=80") center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      padding: 0.9rem 1rem;
+      border-radius: 18px;
+      background: rgba(11, 9, 8, 0.72);
+      border: 1px solid rgba(255, 248, 240, 0.12);
+      max-width: 220px;
+    }
+
+    .hero-badge strong {
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .mini-card {
+      padding: 1rem;
+      border-radius: 20px;
+      background: rgba(255, 248, 240, 0.05);
+      border: 1px solid rgba(255, 248, 240, 0.08);
+    }
+
+    .mini-card span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .section {
+      margin-top: 1.5rem;
+    }
+
+    .section-card {
+      padding: 1.4rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      max-width: 58ch;
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    h2 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      margin: 0;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .service-card {
+      padding: 1.35rem;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(215, 163, 93, 0.45);
+    }
+
+    .service-index {
+      color: var(--accent);
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+    }
+
+    .service-card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.25rem;
+    }
+
+    .service-card p,
+    .testimonial p,
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .service-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 248, 240, 0.08);
+      font-size: 0.94rem;
+    }
+
+    .story-grid,
+    .testimonial-grid,
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .story-block {
+      padding: 1.5rem;
+      border-radius: 24px;
+      background:
+        linear-gradient(150deg, rgba(255, 248, 240, 0.08), rgba(255, 248, 240, 0.03)),
+        url("https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80") center/cover;
+      min-height: 320px;
+      display: flex;
+      align-items: end;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .story-copy {
+      padding: 1.6rem;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: rgba(255, 248, 240, 0.04);
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial {
+      padding: 1.35rem;
+    }
+
+    .rating {
+      color: var(--accent);
+      letter-spacing: 0.25em;
+      font-size: 0.9rem;
+    }
+
+    .author {
+      margin-top: 1rem;
+      font-weight: 800;
+    }
+
+    .contact-card {
+      padding: 1.5rem;
+    }
+
+    .hours {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(255, 248, 240, 0.08);
+    }
+
+    .contact-cta {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    .footer {
+      padding: 1.6rem 0 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 700ms ease, transform 700ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .services,
+      .story-grid,
+      .testimonial-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header,
+      .nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero h1 {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 1rem, 100%);
+      }
+
+      .hero-panel,
+      .hero-card,
+      .section-card,
+      .contact-card {
+        padding: 1.2rem;
+      }
+
+      .stats,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+      }
+
+      .hero-visual {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="nav">
+      <a href="#top" class="brand">
+        <span class="brand-mark">NB</span>
+        <span>Northline Barber Studio</span>
+      </a>
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#story">Our Story</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#visit">Visit</a>
+        <a class="button button-primary" href="#book">Book Now</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-panel reveal">
+          <span class="eyebrow">Modern cuts. Old-school attention.</span>
+          <h1>Sharp work for men who notice detail.</h1>
+          <p class="hero-copy">
+            Premium fades, beard sculpting, hot towel finishes, and a shop atmosphere built around precision, rhythm, and confidence.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#book">Reserve a chair</a>
+            <a class="button button-secondary" href="#services">See services</a>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong>12+</strong>
+              <span>Years shaping signature looks</span>
+            </div>
+            <div class="stat">
+              <strong>4.9/5</strong>
+              <span>Average rating from loyal clients</span>
+            </div>
+            <div class="stat">
+              <strong>6 Days</strong>
+              <span>Open weekly with late appointments</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-card reveal">
+          <div class="hero-visual">
+            <div class="hero-badge">
+              <strong>Signature Experience</strong>
+              Fade, beard line-up, hot towel, and styling finish in one polished session.
+            </div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-card">
+              <strong>Walk-ins Welcome</strong>
+              <span>Best availability before 2 PM on weekdays.</span>
+            </div>
+            <div class="mini-card">
+              <strong>Downtown Studio</strong>
+              <span>Easy parking, coffee nearby, clean private stations.</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section" id="services">
+        <div class="section-card reveal">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Services</span>
+              <h2>Built around the full grooming ritual.</h2>
+            </div>
+            <p>
+              Every appointment is paced for quality, not volume. We take time with shape, texture, and finish so the cut still looks strong when the week gets busy.
+            </p>
+          </div>
+          <div class="services">
+            <article class="service-card">
+              <span class="service-index">01</span>
+              <h3>Precision Haircut</h3>
+              <p>Detailed consultation, tailored cut, wash, and finished styling for a clean everyday look.</p>
+              <div class="service-meta">
+                <span>45 min</span>
+                <strong>$30</strong>
+              </div>
+            </article>
+            <article class="service-card">
+              <span class="service-index">02</span>
+              <h3>Fade & Beard Sculpt</h3>
+              <p>Skin fade or taper paired with beard shaping and razor-clean neckline work.</p>
+              <div class="service-meta">
+                <span>60 min</span>
+                <strong>$45</strong>
+              </div>
+            </article>
+            <article class="service-card">
+              <span class="service-index">03</span>
+              <h3>Executive Treatment</h3>
+              <p>Haircut, beard service, hot towel, and styling finish for the sharpest room-entry energy.</p>
+              <div class="service-meta">
+                <span>75 min</span>
+                <strong>$60</strong>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="story">
+        <div class="story-grid">
+          <div class="story-block reveal">
+            <div>
+              <span class="eyebrow">Atmosphere</span>
+              <h2>Classic craft with modern edge.</h2>
+            </div>
+          </div>
+          <div class="story-copy reveal">
+            <span class="eyebrow">Our Story</span>
+            <p>
+              Northline was designed for clients who want more than a quick trim. The studio blends old barbershop discipline with current style culture, from textured crops to polished business cuts.
+            </p>
+            <p>
+              We keep the experience focused: sharp tools, thoughtful consultation, clean music, and a result you can trust without overexplaining every visit.
+            </p>
+            <a class="button button-secondary" href="#visit">Plan your visit</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="reviews">
+        <div class="section-card reveal">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow">Client Reviews</span>
+              <h2>People come back for consistency.</h2>
+            </div>
+            <p>
+              Reliable quality matters. These comments reflect what regulars value most: clean fades, strong service, and a chair they trust every time.
+            </p>
+          </div>
+          <div class="testimonial-grid">
+            <article class="testimonial">
+              <div class="rating">★★★★★</div>
+              <p>"Best fade I’ve had in years. Clean blend, strong beard detail, and the whole place feels elevated without feeling pretentious."</p>
+              <div class="author">Arjun Mehta</div>
+            </article>
+            <article class="testimonial">
+              <div class="rating">★★★★★</div>
+              <p>"Booked before a wedding weekend and left looking sharp. The hot towel finish was a great touch, and the cut held up perfectly."</p>
+              <div class="author">Rohan Khanna</div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="visit">
+        <div class="contact-grid">
+          <div class="contact-card reveal" id="book">
+            <span class="eyebrow">Book Today</span>
+            <h2>Your next clean cut starts here.</h2>
+            <p>
+              Appointments are recommended for evenings and weekends. Reserve ahead to get your preferred barber and time slot.
+            </p>
+            <div class="contact-cta">
+              <a class="button button-primary" href="tel:+910000000000">Call to book</a>
+              <a class="button button-secondary" href="mailto:bookings@northlinebarber.com">Email the studio</a>
+            </div>
+          </div>
+          <div class="contact-card reveal">
+            <span class="eyebrow">Visit The Studio</span>
+            <p>214 Market Street, Downtown District</p>
+            <p>Mon to Sat with late hours on Thursday and Friday.</p>
+            <div class="hours">
+              <div class="hours-row"><span>Monday - Wednesday</span><strong>10 AM - 7 PM</strong></div>
+              <div class="hours-row"><span>Thursday - Friday</span><strong>10 AM - 9 PM</strong></div>
+              <div class="hours-row"><span>Saturday</span><strong>9 AM - 6 PM</strong></div>
+              <div class="hours-row"><span>Sunday</span><strong>Closed</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Northline Barber Studio. Precision cuts, beard work, and a premium barbershop experience.
+    </footer>
+  </div>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.18 });
+
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
